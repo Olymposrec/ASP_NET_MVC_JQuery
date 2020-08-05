@@ -1,0 +1,63 @@
+﻿
+@{
+    ViewBag.Title = "Index3";
+}
+
+<h2>Index3</h2>
+<hr />
+
+<button id="btnload" type="button" class="btn btn-success">Verileri Yükle</button>
+<hr />
+<button id="btnload2" type="button" class="btn btn-success">Verileri Getir Veya Yükle</button>
+<hr />
+<input id="txtData" type="text" class="form-control" placeholder="Veri Giriniz..." style="width:200px;" />
+<hr />
+<div id="loading" class="alert alert-warning" style="display:none"> Yükleniyor...</div>
+<ul id="list" class="list-group">
+</ul>
+
+<script>
+    $(function () {
+        $("#btnload").click(function () {
+            $.ajax({
+                method: "GET",
+                url: "/Home/VerileriGetir",
+                beforeSend: function () {
+                    $("#list").empty();
+                    $("#loading").show(300);
+                }
+            }).done(function (d) {
+                $("#list").html(d);
+            }).fail(function () {
+                alert("Hata Oluştu..");
+            }).always(function () {
+                $("#loading").show(300);
+            });
+
+        });
+
+        $("#btnload2").click(function () {
+            var dat = $("#txtData").val();
+
+            $.ajax({
+                method: "POST",
+                url: "/Home/VerileriGetir",
+                data: { veri: dat },
+                beforeSend: function () {
+                    $("#list").empty();
+                    $("#loading").show(300);
+                }
+            }).done(function (d) {
+                $("#list").html(d);
+            }).fail(function () {
+                alert("Hata Oluştu..");
+            }).always(function () {
+                $("#loading").hide(300);
+            });
+
+        });
+    });
+
+
+</script>
+
